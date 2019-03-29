@@ -4,7 +4,7 @@
 
 ##Demo
 
-[countries Info sorting and search App](https://mostafain.github.io/countriesList_miniProject/countriesInfoIndex.html)
+[countries Info sorting and search App](https://mostafain.github.io/countriesInfo_miniProject/countriesInfoIndex.html)
 
 ## Screenshot
 
