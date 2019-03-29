@@ -19,10 +19,8 @@ const countriesList = {
     },
     filterCountriesByName: function (arr, search) {
         const filteredList = arr.filter(country => {
-            let { name} = country;
+            let { name } = country;
             let isName = name.toLowerCase().includes(search);
-            // let isCapital = capital.toLowerCase().includes(search);
-            // let isLanguages = languages.join().toLowerCase().includes(search);
             return isName;
         });
         let result = search == '' ? arr : filteredList;
@@ -30,7 +28,7 @@ const countriesList = {
     },
     filterCountriesByCapital: function (arr, search) {
         const filteredList = arr.filter(country => {
-            let {capital} = country;
+            let { capital } = country;
             // let isName = name.toLowerCase().includes(search);
             let isCapital = capital.toLowerCase().includes(search);
             // let isLanguages = languages.join().toLowerCase().includes(search);
@@ -80,23 +78,39 @@ SortByNameBtn.addEventListener('click', e => {
 
     searchMeInput.addEventListener('input', e => {
         let searchTerm = e.target.value.toLowerCase();
-        displayContent(filterCountriesByName(countries, searchTerm));
+        // searchTerm.sort();
+        displayContent(filterCountriesByName(countries, searchTerm).sort((a, b) => {
+            if (a.name < b.name) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }));
     });
-    subTitle.textContent = `Total number of countries: ${searchTerm.length}`;
+    // subTitle.textContent = `Total number of countries: ${searchTerm.length}`;
+
+    e.preventDefault();
 });
 
 /***== Sort By Capital   ==***/
 const SortByCapitalBtn = document.querySelector(".capitalSortBtn");
-SortByCapitalBtn.addEventListener('click', e =>{
+SortByCapitalBtn.addEventListener('click', e => {
     SortByCapitalBtn.setAttribute('style', 'color: white; background-color: #511');
     SortByNameBtn.setAttribute('style', 'color: black; background-color: #eee');
     SortByPopulationBtn.setAttribute('style', 'color: black; background-color: #eee');
 
     searchMeInput.addEventListener('input', e => {
         let searchTerm = e.target.value.toLowerCase();
-        displayContent(filterCountriesByCapital(countries, searchTerm));
+        displayContent(filterCountriesByCapital(countries, searchTerm).sort((c1, c2) => {
+            if (c1.capital < c2.capital) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }));
     });
-})
+    e.preventDefault();
+});
 
 /***== Sort By Population   ==***/
 const SortByPopulationBtn = document.querySelector(".populationSortBtn");
@@ -106,12 +120,20 @@ SortByPopulationBtn.addEventListener('click', e => {
     SortByCapitalBtn.setAttribute('style', 'color: black; background-color: #eee');
 
     searchMeInput.addEventListener('input', e => {
-        let searchTerm = e.target.value;
-        displayContent(filterCountriesByPopulation(countries, searchTerm));
-    });
-    
-})
+        let searchTerm = e.target.value.toLowerCase();
+        if (searchTerm.value.toString() == 0) {
 
+            displayContent(filterCountriesByPopulation(countries, searchTerm).sort((p1, p2) => {
+                if (p1.population < p2.population) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }));
+        };
+    });
+    e.preventDefault();
+});
 
 
 //////////////////////////////////////////////////////////////////////////////
