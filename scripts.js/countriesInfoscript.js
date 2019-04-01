@@ -23,11 +23,12 @@ const countriesList = {
     },
     filterCountries: function (arr, search) {
         const filteredList = arr.filter(country => {
-            let { name, capital, languages } = country;
+            let { name, capital, languages,population } = country;
             let isName = name.toLowerCase().includes(search);
             let isCapital = capital.toLowerCase().includes(search);
             let isLang = languages.join().toLowerCase().includes(search);
-            return isName || isCapital || isLang;
+            let isPopulation= population.toLocaleString().includes(search);
+            return isName || isCapital || isLang || isPopulation;
         });
         let result = search == '' ? arr : filteredList;
         return result;
@@ -133,7 +134,7 @@ SortByPopulationBtn.addEventListener('click', (e) => {
         }));
         clickState = 1;
     } else {
-        displayContent(filterCountries(countries, searchMeInput.value).reverse((p1, p2) => {
+        displayContent(filterCountries(countries, searchMeInput.value).reverse ((p1, p2) => {
             if (p1.population < p2.population) {
                 return -1;
             } else {
