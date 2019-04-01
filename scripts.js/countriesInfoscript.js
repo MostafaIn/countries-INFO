@@ -1,47 +1,32 @@
 "use strict"
-console.log(countries);
+// console.log(countries);
 const countriesList = {
     elements: {
         /*****  GLOBAL VARIABLES *****/
         subTitle: document.querySelector('.subTitle'),
         searchMeInput: document.querySelector(".searchMeInput"),
-        container: document.querySelector(".container")
+        container: document.querySelector(".container"),
+        SortByNameBtn: document.querySelector(".nameSortBtn"),
+        SortByCapitalBtn: document.querySelector(".capitalSortBtn"),
+        SortByPopulationBtn: document.querySelector(".populationSortBtn")
     },
     createContent: function (content) {
         const { name, capital, languages, population, flag } = content;
         return `<div class="box">
     <img src="${flag}"/>
-    <h3>${name}</h3>
-    <h5>${capital}</h5>
+    <h2>${name}</h2>
+    <h4>${capital}</h4>
     <p>${languages.join(', ')}</p>
     <p>${population.toLocaleString()}</p>
     </div>`;
     },
-    filterCountriesByName: function (arr, search) {
+    filterCountries: function (arr, search) {
         const filteredList = arr.filter(country => {
-            let { name } = country;
+            let { name, capital, languages } = country;
             let isName = name.toLowerCase().includes(search);
-            return isName;
-        });
-        let result = search == '' ? arr : filteredList;
-        return result;
-    },
-    filterCountriesByCapital: function (arr, search) {
-        const filteredList = arr.filter(country => {
-            let { capital } = country;
-            // let isName = name.toLowerCase().includes(search);
             let isCapital = capital.toLowerCase().includes(search);
-            // let isLanguages = languages.join().toLowerCase().includes(search);
-            return isCapital;
-        });
-        let result = search == '' ? arr : filteredList;
-        return result;
-    },
-    filterCountriesByPopulation: function (arr, search) {
-        const filteredList = arr.filter(country => {
-            let { population } = country;
-            let isPopulation = population.includes(search);
-            return isPopulation;
+            let isLang = languages.join().toLowerCase().includes(search);
+            return isName || isCapital || isLang;
         });
         let result = search == '' ? arr : filteredList;
         return result;
@@ -49,91 +34,84 @@ const countriesList = {
     displayContent: function (arr) {
         let contents = '';
         container.innerHTML = '';
-        arr.forEach((country, i) => {
+        arr.forEach((country) => {
             contents += countriesList.createContent(country);
         });
         container.innerHTML = contents;
+        subTitle.textContent = arr.length;
     }
 
 };
-let { container, subTitle, searchMeInput } = countriesList.elements;
-const { createContent, filterCountriesByName, filterCountriesByCapital, filterCountriesByPopulation, displayContent } = countriesList;
+let { container, subTitle, searchMeInput, SortByNameBtn, SortByCapitalBtn, SortByPopulationBtn } = countriesList.elements;
+const { createContent, filterCountries, displayContent } = countriesList;
 
-// declare the amount on items in the container
-subTitle.textContent = ` Total number of countries : ${countries.length}`;
-displayContent(filterCountriesByName(countries, searchMeInput.value));
+let sortByNameBtn = false;
+displayContent(filterCountries(countries, searchMeInput.value));
+
 
 /*=== Event listener to get search input === */
-
-
-/***== switch between buttons   ==***/
-
+searchMeInput.addEventListener('input', (e) => {
+    container.innerHTML = " ";
+    let searchItem = e.target.value.toLowerCase();
+    displayContent(filterCountries(countries, searchItem));
+});
 
 /***== Sort By Name   ==***/
-const SortByNameBtn = document.querySelector(".nameSortBtn");
-SortByNameBtn.addEventListener('click', e => {
+
+SortByNameBtn.addEventListener('click', (e) => {
     SortByNameBtn.setAttribute('style', 'color: white; background-color: #511');
     SortByCapitalBtn.setAttribute('style', 'color: black; background-color: #eee');
     SortByPopulationBtn.setAttribute('style', 'color: black; background-color: #eee');
 
-    searchMeInput.addEventListener('input', e => {
-        let searchTerm = e.target.value.toLowerCase();
-        // searchTerm.sort();
-        displayContent(filterCountriesByName(countries, searchTerm).sort((a, b) => {
-            if (a.name < b.name) {
-                return -1;
-            } else {
-                return 1;
-            }
-        }));
-    });
-    // subTitle.textContent = `Total number of countries: ${searchTerm.length}`;
-
-    e.preventDefault();
+    displayContent(filterCountries(countries, searchMeInput.value).sort((a, b) => {
+        if (a.isName < b.isName) {
+            return 1;
+        }
+        if (a.isName > b.isName) {
+            return -1;
+        }
+        return 0;
+    }));
 });
 
+
 /***== Sort By Capital   ==***/
-const SortByCapitalBtn = document.querySelector(".capitalSortBtn");
-SortByCapitalBtn.addEventListener('click', e => {
+
+SortByCapitalBtn.addEventListener('click', (e) => {
     SortByCapitalBtn.setAttribute('style', 'color: white; background-color: #511');
     SortByNameBtn.setAttribute('style', 'color: black; background-color: #eee');
     SortByPopulationBtn.setAttribute('style', 'color: black; background-color: #eee');
 
-    searchMeInput.addEventListener('input', e => {
-        let searchTerm = e.target.value.toLowerCase();
-        displayContent(filterCountriesByCapital(countries, searchTerm).sort((c1, c2) => {
-            if (c1.capital < c2.capital) {
-                return -1;
-            } else {
-                return 1;
-            }
-        }));
-    });
-    e.preventDefault();
+    displayContent(filterCountries(countries, searchMeInput.value).sort((c1, c2) => {
+        if (c1.capital < c2.capital) {
+            return -1;
+        }
+        if (c1.capital > c2.capital) {
+            return 1;
+        }
+        return 0;
+    }));
 });
 
 /***== Sort By Population   ==***/
-const SortByPopulationBtn = document.querySelector(".populationSortBtn");
-SortByPopulationBtn.addEventListener('click', e => {
+
+SortByPopulationBtn.addEventListener('click', (e) => {
     SortByPopulationBtn.setAttribute('style', 'color: white; background-color: #511');
     SortByNameBtn.setAttribute('style', 'color: black; background-color: #eee');
     SortByCapitalBtn.setAttribute('style', 'color: black; background-color: #eee');
 
-    searchMeInput.addEventListener('input', e => {
-        let searchTerm = e.target.value.toLowerCase();
-        if (searchTerm.value.toString() == 0) {
+    displayContent(filterCountries(countries, searchMeInput.value).sort((p1, p2) => {
+        if (p1.population < p2.population) {
+            return -1;
+        }
+        if (p1.population > p2.population) {
+            return 1;
+        }
+        return 0;
+    }));
 
-            displayContent(filterCountriesByPopulation(countries, searchTerm).sort((p1, p2) => {
-                if (p1.population < p2.population) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }));
-        };
-    });
-    e.preventDefault();
 });
+
 
 
 //////////////////////////////////////////////////////////////////////////////
