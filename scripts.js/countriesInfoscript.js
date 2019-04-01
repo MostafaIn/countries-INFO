@@ -1,4 +1,5 @@
 "use strict"
+let clickState = 0;
 // console.log(countries);
 const countriesList = {
     elements: {
@@ -63,15 +64,26 @@ SortByNameBtn.addEventListener('click', (e) => {
     SortByCapitalBtn.setAttribute('style', 'color: black; background-color: #eee');
     SortByPopulationBtn.setAttribute('style', 'color: black; background-color: #eee');
 
-    displayContent(filterCountries(countries, searchMeInput.value).sort((a, b) => {
-        if (a.isName < b.isName) {
-            return 1;
-        }
-        if (a.isName > b.isName) {
-            return -1;
-        }
-        return 0;
-    }));
+    if (clickState == 0) {
+        displayContent(filterCountries(countries, searchMeInput.value).sort((a, b) => {
+            if (a.name < b.name) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }));
+        clickState = 1;
+    } else {
+        displayContent(filterCountries(countries, searchMeInput.value).reverse((a, b) => {
+            if (a.name < b.name) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }));
+        clickState = 0;
+    }
+
 });
 
 
@@ -82,15 +94,26 @@ SortByCapitalBtn.addEventListener('click', (e) => {
     SortByNameBtn.setAttribute('style', 'color: black; background-color: #eee');
     SortByPopulationBtn.setAttribute('style', 'color: black; background-color: #eee');
 
-    displayContent(filterCountries(countries, searchMeInput.value).sort((c1, c2) => {
-        if (c1.capital < c2.capital) {
-            return -1;
-        }
-        if (c1.capital > c2.capital) {
-            return 1;
-        }
-        return 0;
-    }));
+    if (clickState == 0) {
+        displayContent(filterCountries(countries, searchMeInput.value).sort((c1, c2) => {
+            if (c1.capital < c2.capital) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }));
+        clickState = 1;
+    } else {
+        displayContent(filterCountries(countries, searchMeInput.value).reverse((c1, c2) => {
+            if (c1.capital < c2.capital) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }));
+        clickState = 0;
+    }
+
 });
 
 /***== Sort By Population   ==***/
@@ -100,15 +123,26 @@ SortByPopulationBtn.addEventListener('click', (e) => {
     SortByNameBtn.setAttribute('style', 'color: black; background-color: #eee');
     SortByCapitalBtn.setAttribute('style', 'color: black; background-color: #eee');
 
-    displayContent(filterCountries(countries, searchMeInput.value).sort((p1, p2) => {
-        if (p1.population < p2.population) {
-            return -1;
-        }
-        if (p1.population > p2.population) {
-            return 1;
-        }
-        return 0;
-    }));
+    if (clickState == 0) {
+        displayContent(filterCountries(countries, searchMeInput.value).sort((p1, p2) => {
+            if (p1.population < p2.population) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }));
+        clickState = 1;
+    } else {
+        displayContent(filterCountries(countries, searchMeInput.value).reverse((p1, p2) => {
+            if (p1.population < p2.population) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }));
+        clickState = 0;
+    }
+
 
 });
 
