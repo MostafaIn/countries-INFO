@@ -160,33 +160,26 @@ function countryBox() {
         const countryFlag = document.createElement("img");
         countryFlag.setAttribute("class", "flag");
         countryFlag.src = countriesObject[i].flag;
-
         // this is the name of the country
         const countryName = document.createElement("h4");
         countryName.setAttribute("class", "name");
         countryName.textContent = countriesObject[i].name;
-
         // this is the capital city of the country
         const capitalCity = document.createElement("span");
         capitalCity.setAttribute("class", "capital");
         capitalCity.textContent = countriesObject[i].capital;
-
         // the languages of this country
         const countryLang = document.createElement("h5");
         countryLang.setAttribute("class", "lang");
         countryLang.textContent = countriesObject[i].languages;
-
         // the population of this country
         const countryPopulation = document.createElement("span");
         countryPopulation.setAttribute("class", "population");
         countryPopulation.textContent = countriesObject[i].population;
-
         // the currency of this country
         const countryCurrency = document.createElement("span");
         countryCurrency.setAttribute("class", "currency");
         countryCurrency.textContent = countriesObject[i].currency;
-
-
         countryBox.appendChild(countryFlag);
         countryBox.appendChild(countryName);
         countryBox.appendChild(capitalCity);
@@ -194,7 +187,6 @@ function countryBox() {
         countryBox.appendChild(countryPopulation);
         countryBox.appendChild(countryCurrency);
         container.appendChild(countryBox);
-
     }
 };**/
 
